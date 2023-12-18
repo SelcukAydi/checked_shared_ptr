@@ -372,7 +372,7 @@ inline void swap(checked_shared_ptr<T> &a, checked_shared_ptr<T> &b)
 }
 
 template<typename T, typename... Args>
-sia::checked_shared_ptr<T> make_checked_shared(Args&... args)
+sia::checked_shared_ptr<T> make_checked_shared(Args&&... args)
 {
     return std::make_shared<T>(std::forward<Args>(args)...);
 }
@@ -416,8 +416,8 @@ inline ::sia::checked_shared_ptr<T> const_pointer_cast(const ::sia::checked_shar
 template <typename T, typename U>
 inline ::sia::checked_shared_ptr<T> reinterpret_pointer_cast(const ::sia::checked_shared_ptr<U> &__r) noexcept
 {
-    using _Sp = ::sia::checked_shared_ptr<T>;
-    return _Sp(__r, reinterpret_cast<typename _Sp::element_type *>(
+    using Sp = ::sia::checked_shared_ptr<T>;
+    returnSp(__r, reinterpret_cast<typename Sp::element_type *>(
                         const_cast<typename ::sia::checked_shared_ptr<U>::element_type *>(__r.get())));
 }
 }  // namespace std

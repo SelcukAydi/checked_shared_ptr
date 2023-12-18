@@ -1,5 +1,6 @@
 #include "checked_shared_ptr.hpp"
 #include <gtest/gtest.h>
+#include <memory>
 
 struct BasicClass
 {
@@ -14,13 +15,13 @@ struct Person
     std::uint64_t m_id{};
     std::string m_name{};
 
-    friend std::ostream &operator<<(std::ostream &os, Person &person); // NOLINT(readability-identifier-length)
+    friend std::ostream &operator<<(std::ostream &os, Person &person);  // NOLINT(readability-identifier-length)
 
     protected:
     virtual ~Person() = default;
 };
 
-std::ostream &operator<<(std::ostream &os, Person &person) // NOLINT(readability-identifier-length)
+std::ostream &operator<<(std::ostream &os, Person &person)  // NOLINT(readability-identifier-length)
 {
     os << "Person=[(ID= " << person.m_id << ")(Name=" << person.m_name << ")]";
     return os;
@@ -30,13 +31,13 @@ struct Developer final : Person
 {
     std::uint8_t m_num_of_tasks{};
 
-    friend std::ostream &operator<<(std::ostream &os, Developer &developer); // NOLINT(readability-identifier-length)
+    friend std::ostream &operator<<(std::ostream &os, Developer &developer);  // NOLINT(readability-identifier-length)
 };
 
-std::ostream &operator<<(std::ostream &os, Developer &developer) // NOLINT(readability-identifier-length)
+std::ostream &operator<<(std::ostream &os, Developer &developer)  // NOLINT(readability-identifier-length)
 {
-    os << "Developer=[" << static_cast<Person &>(developer) << "(Tasks=" << static_cast<std::uint32_t>(developer.m_num_of_tasks)
-       << ")]";
+    os << "Developer=[" << static_cast<Person &>(developer)
+       << "(Tasks=" << static_cast<std::uint32_t>(developer.m_num_of_tasks) << ")]";
     return os;
 }
 
@@ -44,10 +45,10 @@ struct Manager final : Person
 {
     std::string m_current_task_name{};
 
-    friend std::ostream &operator<<(std::ostream &os, Manager &manager); // NOLINT(readability-identifier-length)
+    friend std::ostream &operator<<(std::ostream &os, Manager &manager);  // NOLINT(readability-identifier-length)
 };
 
-std::ostream &operator<<(std::ostream &os, Manager &manager) // NOLINT(readability-identifier-length)
+std::ostream &operator<<(std::ostream &os, Manager &manager)  // NOLINT(readability-identifier-length)
 {
     os << "Manager=[" << static_cast<Person &>(manager) << "(TaskName=" << manager.m_current_task_name << ")]";
     return os;
@@ -77,7 +78,7 @@ struct PlainObject
     std::string m_name{};
 };
 
-inline bool operator==(const PlainObject& lhs, const PlainObject& rhs)
+inline bool operator==(const PlainObject &lhs, const PlainObject &rhs)
 {
     return (lhs.m_id == rhs.m_id) && (lhs.m_name == rhs.m_name);
 }
@@ -202,7 +203,7 @@ TEST(CheckedSharedPtr, AlisingCtor2)
 TEST(CheckedSharedPtr, DefaultCopyCtor)
 {
     sia::checked_shared_ptr<Base> c_ptr_base = std::make_shared<Base>();
-    sia::checked_shared_ptr<Base> c_ptr_base_other{c_ptr_base}; // NOLINT(performance-unnecessary-copy-initialization)
+    sia::checked_shared_ptr<Base> c_ptr_base_other{c_ptr_base};  // NOLINT(performance-unnecessary-copy-initialization)
 
     EXPECT_TRUE(c_ptr_base.get() == c_ptr_base_other.get());
 }
@@ -363,7 +364,7 @@ TEST(CheckedSharedPtr, GreaterOperator)
 TEST(CheckedSharedPtr, LessOrEqualOperator)
 {
     sia::checked_shared_ptr<PlainObject> c_ptr1 = std::make_shared<PlainObject>();
-    sia::checked_shared_ptr<PlainObject> c_ptr2{c_ptr1}; // NOLINT(performance-unnecessary-copy-initialization)
+    sia::checked_shared_ptr<PlainObject> c_ptr2{c_ptr1};  // NOLINT(performance-unnecessary-copy-initialization)
 
     EXPECT_TRUE(c_ptr1 <= c_ptr2);
 }
@@ -371,7 +372,7 @@ TEST(CheckedSharedPtr, LessOrEqualOperator)
 TEST(CheckedSharedPtr, GreaterOrEqualOperator)
 {
     sia::checked_shared_ptr<PlainObject> c_ptr1 = std::make_shared<PlainObject>();
-    sia::checked_shared_ptr<PlainObject> c_ptr2{c_ptr1}; // NOLINT(performance-unnecessary-copy-initialization)
+    sia::checked_shared_ptr<PlainObject> c_ptr2{c_ptr1};  // NOLINT(performance-unnecessary-copy-initialization)
 
     EXPECT_TRUE(c_ptr2 >= c_ptr1);
 }
