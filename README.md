@@ -1,5 +1,8 @@
 # Checked Shared Pointer
 
+## Rationale
+The need for this kind of pointer is that std::shared_ptr behaves like a raw pointer. Moreover, it is very close to extending its abilities. The big lack of ability of std::shared_ptr is the exception handling on nullptr access in a soft way. Going forward, of course, it was possible to implement a checked version of std::shared_ptr but std::shared_ptr does not have a virtual destructor. Moreover, it is not designed to be extended by your custom types using inheritance. Also, still it is dangerous to use inheritance because you can still cast checked_shared_ptr to std::shared_ptr which means now it is the responsibility of the developer to check if this pointer is nullptr or not. Another reason for not using inheritance is that it is very easy to add some extra pre and post-steps within the provided APIs by checked_shared_ptr in a specialized way as the polymorphism is not in the stage which may be error-prone sometimes (e.g. calling a wrong version of inherited method). To support the idea mentioned above **composition pattern** is used in this library.
+
 ## Features
 
 ### Mimicking std::shared_ptr
